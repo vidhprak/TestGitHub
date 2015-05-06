@@ -1,0 +1,8 @@
+Below is what I consider to be the disadvantages of Git – when compared to subversion. I should point out that these are just my niggles with git – I still prefer it over subversion because stashing is cool, and there is always less merging when using Git.
+Revision Numbers
+
+Git uses “hashes” which are completely unreadable for humans – it makes revision tracking difficult to process mentally. For git fan-boys, don’t try to deny to this argument, it just wont work; instead hang your head in shame, or just change the subject, comebacks to this one won’t stick.
+Submodules
+
+This has got to be the worst part of git. I consider this a deal-breaker for many projects – some projects shouldn’t use Git because of this one single feature.
+Git does not allow partial checkouts of repositories, so either you live with entire repository checkouts, or use “submodules” as a bad excuse for partial checkouts. Not having partial checkouts is very annoying, and using submodules to facilitate it is like using a machete to cut your fingernails – good luck with that!
