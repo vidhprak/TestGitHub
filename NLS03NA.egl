@@ -1,0 +1,152 @@
+package NLS03NA;
+import NLS004A.*;
+import NLS03PA.*;
+import NLS053A.*;
+//*** PROGRAM=NLS03NA ****
+// ************************************************************
+// NARR Accounting Reconciliation Report support Submenu      *
+// *                                                          *
+// *            Options:                                      *
+// *                                                          *
+// *            4. Hardware Lease                             *
+// *            5. Hardware depreciation/inventory            *
+// *            6. Software                                   *
+// *            7. Services                                   *
+// *            9. Investment tax (only shown for Norway)     *
+// *                                                          *
+// * PROGR:     Jan98   SE18782  Dennis Davidsson             *
+// *                                                          *
+// * MAINT:     DATE    USERID   DESCRIPTION                  *
+// *            ------  -------  -------------------------    *
+// *                                                          *
+// ************************************************************
+// ************************
+Program NLS03NA type textUIProgram //VAGen Info - called text program
+  ()
+  {
+  includeReferencedFunctions = yes, allowUnqualifiedItemReferences = yes, 
+  throwNrfEofExceptions = yes, handleHardIOErrors = no, V60ExceptionCompatibility = yes, 
+  I4GLItemsNullable = no, textLiteralDefaultIsString = no, localSQLScope = yes
+  }
+
+  // Data Declarations
+  NLS004W00 NLS004W00; // record
+  NLS03NW00 NLS03NW00 { initialized = yes }; // record
+  NLS03PW00 NLS03PW00; // record
+  NLS053W00 NLS053W00; // record
+
+  // VAGen Info - items needed for migration
+  VAGen_EZESYS char(8);
+  VAGen_EZEREPLY num(1);
+  VAGen_EZE_WAIT_TIME bin(9,2);
+  VAGen_EZE_ITEMLEN int;
+
+  // Use Declarations
+  use NLS03N.NLS03NM1 // form
+   {
+    helpKey = pf1,
+    pfKeyEquate = yes
+  };
+
+  function main()
+    // VAGen Info - initialization needed for migration
+    VAGen_EZESYS = VGLib.getVAGSysType();
+    NLS03NP_MAIN: NLS03NP_MAIN();
+  end // end main
+end // end NLS03NA
+
+// Authorization check in S74
+Function NLS03NP_AUTH()
+  return;
+  CHECK_FLAG = 0;
+  set NLS004W00 empty;
+  NLS004W00.VAGen_FUNCTION = "N03NA";
+  call "NLS004A" (NLS004W00) {isNoRefresh = yes};
+  if (NLS004W00.RETC != 0)
+    if (NLS004W00.RETC < 0)
+      NLS03NM1.VAGen_EZEMSG = "An error has just occurred. Contact I/S";
+    else
+      NLS03NM1.VAGen_EZEMSG = NLS004W00.MESSAGE;
+    end
+    CHECK_FLAG = 1;
+    return;
+  end
+  if (NLS004W00.AUTHORIZED == "N")
+    NLS03NM1.VAGen_EZEMSG = NLS004W00.MESSAGE;
+    CHECK_FLAG = 1;
+    return;
+  end
+  /* -----------------------------------------------------------------*/
+end // end NLS03NP_AUTH
+
+// Display Main Menu
+Function NLS03NP_CONV()
+  if (NLS053W00.CTRYCODE != "806") /* NIT reports option only to be*/
+    NLS03NM1.OPTION9 = " "; /* displayed for Norway.*/
+  end
+  NLS03NM1.VAGen_DATE = VGVar.currentShortGregorianDate;
+  NLS03NM1.VAGen_TIME = VGVar.currentFormattedTime;
+  converse NLS03NM1 ;
+end // end NLS03NP_CONV
+
+// Get country code
+Function NLS03NP_GET_CTRY()
+  call "NLS053A" (NLS053W00) {isNoRefresh = yes}; /* Get country code.*/
+  if (NLS053W00.RETCODE != 0)
+    NLS03NM1.VAGen_EZEMSG = NLS053W00.ERRMSG;
+  end
+  /*  */
+end // end NLS03NP_GET_CTRY
+
+// Initializations
+Function NLS03NP_INIT()
+  VGVar.handleOverflow = 1;
+  converseVar.commitOnConverse = 1;
+  VGVar.handleHardIOErrors = 1;
+  set NLS03NM1 initial; /* Clear MAP*/
+  NLS03NP_GET_CTRY(); /* Get country code*/
+  /*  */
+end // end NLS03NP_INIT
+
+// Main line
+Function NLS03NP_MAIN()
+   /* ---------------------------------------------------------------*/
+  ;
+         /* NARR Account Support Main Menu*/
+  ;
+   /* ---------------------------------------------------------------*/
+  NLS03NP_INIT(); /* Initializations*/
+  NLS03NP_AUTH(); /* Authorization check in S74*/
+  while (1 == 1)
+    NLS03NP_CONV(); /* Converse screen first time*/
+    while (converseVar.eventKey not enter
+     && converseVar.eventKey not pf11)
+      if (converseVar.eventKey is pf3)
+        exit program; /* Return to Utility menu.*/
+      end
+      NLS03NM1.VAGen_EZEMSG = "Incorrect PF key selection.";
+      NLS03NP_CONV(); /* Converse screen*/
+    end /**/
+    /* ------------------------------------------------------------------*/
+    if (converseVar.eventKey is pf11) /* jump to QMF*/
+      call "A85QA";
+    end
+   /* -------------------------------------------------------------------*/
+    if (CHECK_FLAG != 1)
+      NLS03NP_TRAN(); /* Processing*/
+    end
+  end
+end // end NLS03NP_MAIN
+
+// Check selection
+Function NLS03NP_TRAN()
+  NLS03PW00.REPCAT = NLS03NM1.VAGen_SELECT; /* Save report category.*/
+  call "NLS03PA" (NLS03PW00); /* Go show reports within category.*/
+  /*  */
+end // end NLS03NP_TRAN
+
+Record NLS03NW00 type basicRecord
+  10 CHECK_FLAG smallint ; // Authorization check flag
+end // end NLS03NW00
+
+

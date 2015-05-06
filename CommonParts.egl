@@ -1,0 +1,28 @@
+package NLS03NA;
+// Check Option
+Function NLS03NE_EDIT()
+   /* ----------------------------------*/
+  if (converseVar.eventKey is pf3)
+    exit program;
+  end
+  if (converseVar.eventKey is pf11)
+    return;
+  end
+   /* ----------------------------------*/
+  if (NLS03NM1.VAGen_SELECT == "4"
+   || NLS03NM1.VAGen_SELECT == "5"
+   || NLS03NM1.VAGen_SELECT == "6"
+   || NLS03NM1.VAGen_SELECT == "7")
+    return;
+  end
+  if (NLS03NM1.VAGen_SELECT == "9"
+   && NLS053W00.CTRYCODE == "806")
+    return;
+  end
+
+  converseLib.validationFailed();
+  NLS03NM1.VAGen_EZEMSG = "Invalid option, please reenter.";
+  set NLS03NM1.VAGen_SELECT modified, bold;
+end // end NLS03NE_EDIT
+
+

@@ -1,0 +1,110 @@
+package NLS03NA;
+FormGroup NLS03N
+Form NLS03NH1 type textForm	// NLS03N.NLS03NH1
+ { screenSizes = [[24,80],[32,80]], formSize = [24,79], position = [1,1]}
+
+// Start of Variable fields
+
+// Start of Constant fields
+  * { position = [1,36], fieldLen = 8, color = defaultColor, 
+      highlight = noHighlight, intensity = bold, protect = skipProtect,
+      value = "Help map"};
+  * { position = [2,38], fieldLen = 3, color = defaultColor, 
+      highlight = noHighlight, intensity = normalIntensity, 
+      protect = skipProtect, value = "for"};
+  * { position = [3,23], fieldLen = 35, color = defaultColor, 
+      highlight = noHighlight, intensity = normalIntensity, 
+      protect = skipProtect,
+      value = "NARR Account Support Suboption Menu"};
+  * { position = [6,1], fieldLen = 437, color = defaultColor, 
+      highlight = noHighlight, intensity = normalIntensity, 
+      protect = skipProtect,
+      value = "On this map you can specify for which category of NARR:s you want to          a"
+            + "ssign account numbers.                                                         "
+            + "                                                                              W"
+            + "hen the desired option is chosen, All reports defined for this category in    N"
+            + "iLS will be shown on the following map, and on that one you may select        w"
+            + "hich specific reports you want to work on."};
+  * { position = [17,1], fieldLen = 53, color = defaultColor, 
+      highlight = noHighlight, intensity = normalIntensity, 
+      protect = skipProtect,
+      value = "Press any function key to return from this help map."};
+  * { position = [17,55], fieldLen = 612, color = defaultColor, 
+      highlight = noHighlight, intensity = normalIntensity, 
+      protect = skipProtect,
+      value = "                                                                               "
+            + "                                                                               "
+            + "                                                                               "
+            + "                                                                               "
+            + "                                                                               "
+            + "                                                                               "
+            + "                                                                               "
+            + "                        NLS038N1"};
+end // end NLS03N.NLS03NH1
+
+Form NLS03NM1 type textForm	// NLS03N.NLS03NM1
+ { screenSizes = [[24,80],[32,80]], formSize = [24,79], position = [1,1], 
+  helpForm = "NLS03NH1", msgField = VAGen_EZEMSG}
+
+// Start of Variable fields
+  VAGen_DATE num(8) 
+  { position = [1,58], fieldLen = 8, validationOrder = 3, color = blue, 
+    highlight = noHighlight, intensity = normalIntensity, 
+    protect = skipProtect, sign = none, align = left, 
+    fillCharacter = nullFill, dateFormat = "yy/MM/dd"}; 
+  VAGen_TIME char(8) 
+  { position = [1,68], fieldLen = 8, validationOrder = 4, color = blue, 
+    highlight = noHighlight, intensity = normalIntensity, 
+    protect = skipProtect, upperCase = yes, align = left, 
+    fillCharacter = nullFill}; 
+  OPTION9 char(41) 
+  { position = [11,4], fieldLen = 41, validationOrder = 5, color = blue, 
+    highlight = noHighlight, intensity = normalIntensity, 
+    protect = skipProtect, upperCase = yes, align = left, 
+    fillCharacter = nullFill, value = "9. Investment tax"}; 
+  VAGen_SELECT char(1) 
+  { position = [18,18], fieldLen = 1, cursor = yes, validationOrder = 1, 
+    color = defaultColor, highlight = noHighlight, intensity = bold, 
+    protect = noProtect, upperCase = yes, align = left, 
+    fillCharacter = nullFill, validatorFunction = NLS03NE_EDIT,
+    value = "_"}; 
+  VAGen_EZEMSG char(77) 
+  { position = [22,1], fieldLen = 77, validationOrder = 2, 
+    color = defaultColor, highlight = noHighlight, intensity = bold, 
+    protect = skipProtect, upperCase = yes, align = left, 
+    fillCharacter = nullFill}; 
+
+// Start of Constant fields
+  * { position = [1,1], fieldLen = 9, color = blue, highlight = noHighlight, 
+      intensity = normalIntensity, protect = skipProtect, value = " NLS03NM1"};
+  * { position = [1,11], fieldLen = 46, color = defaultColor, 
+      highlight = noHighlight, intensity = bold, protect = skipProtect,
+      value = "      NiLS Accounting Reconciliation Report"};
+  * { position = [1,77], fieldLen = 32, color = blue, highlight = noHighlight, 
+      intensity = normalIntensity, protect = skipProtect  };
+  * { position = [2,31], fieldLen = 4, color = defaultColor, 
+      highlight = noHighlight, intensity = bold, protect = skipProtect,
+      value = "NARR"};
+  * { position = [2,36], fieldLen = 678, color = blue, highlight = noHighlight, 
+      intensity = normalIntensity, protect = skipProtect,
+      value = "                                                                               "
+            + "                                                                               "
+            + "                                                                               "
+            + "                                                                               "
+            + "                                               4. Hardware Lease               "
+            + "                                               5. Hardware depreciation/invento"
+            + "ry                                             6. Software                     "
+            + "                                               7. Services"};
+  * { position = [14,3], fieldLen = 50, color = defaultColor, 
+      highlight = noHighlight, intensity = bold, protect = skipProtect,
+      value = "Select Option for report category and press Enter."};
+  * { position = [18,3], fieldLen = 14, color = defaultColor, 
+      highlight = noHighlight, intensity = bold, protect = skipProtect,
+      value = "Option     ==>"};
+  * { position = [22,79], fieldLen = 78, color = blue, highlight = noHighlight, 
+      intensity = normalIntensity, protect = skipProtect,
+      value = "  PF1=Help  PF3=Exit  PF11=QMF"};
+end // end NLS03N.NLS03NM1
+
+
+end // end NLS03N 
