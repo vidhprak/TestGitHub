@@ -5,4 +5,6 @@ Git uses “hashes” which are completely unreadable for humans – it makes revision
 Submodules
 
 This has got to be the worst part of git. I consider this a deal-breaker for many projects – some projects shouldn’t use Git because of this one single feature.
-Git does not allow partial checkouts of repositories, so either you live with entire repository checkouts, or use “submodules” as a bad excuse for partial checkouts. Not having partial checkouts is very annoying, and using submodules to facilitate it is like using a machete to cut your fingernails – good luck with that!
+Git does 
+ worst part of git. I consider this a deal-breaker for many projects – some projects shouldn’t use Git because of this one single feature.
+Git does 
